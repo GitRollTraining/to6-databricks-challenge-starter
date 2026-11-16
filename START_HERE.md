@@ -1,44 +1,56 @@
 # Start your first Databricks Challenge
 
-Use Codex in your Cloud Workstation to create and execute a notebook inside Databricks, then
-submit its platform-produced files to your own GitHub repository. This starter supplies access
-operations and an ungraded smoke check. It contains no Challenge solution. Read the assignment
-for the four required outcomes.
+**In short.** This guide connects your Cloud Workstation, Databricks and your own GitHub
+repository, then runs an ungraded practice test that proves you can read, write and submit. It
+doesn't contain the Challenge's answer. Finish it before Challenge day if you can. Start the actual
+task ([CHALLENGE.md](CHALLENGE.md)) only once your trainer opens the Classroom assignment.
 
-Complete the ungraded connection walkthrough first. Begin the task when your facilitator releases
-the Classroom assignment; automatic ability scoring is not enabled for this assignment.
+You'll go through seven phases:
+
+1. Make your private repository
+2. Install the tools
+3. Sign in to Databricks and set your paths
+4. Connect GitHub to Databricks, and check
+5. Turn on conversation saving
+6. Run the practice test and submit it
+7. Save the practice conversation, then start the task
+
+A reference section at the end explains the submission rules in detail.
 
 ## Before you start
 
 The training team provides a Cloud Workstation with Python 3.11+, Git, uv, Codex and the Databricks
-CLI, plus your Databricks access and serverless compute entitlement. Use the course's “Set up your
-machine and the training environment” post to sign in with your training Google account. Do not
-put passwords, tokens or sign-in codes in Codex prompts or this repository.
+CLI, plus your Databricks access and serverless compute. Sign in with your training Google account,
+as the course's "Set up your machine and the training environment" post describes.
+
+**Never put passwords, tokens or sign-in codes in a Codex prompt or in this repository.**
+
+## 1. Make your private repository
 
 1. Open [the course starter](https://github.com/GitRollTraining/to6-databricks-challenge-starter).
-2. Select **Use this template → Create a new repository**. Select your personal GitHub account
-   as owner, name the repository, choose **Private**, and create it. Do not select the course
-   organization as owner. Keep the default `main` branch.
-3. In your Cloud Workstation terminal, clone **your new repository**, using its HTTPS URL:
+2. Select **Use this template → Create a new repository**. Choose your personal GitHub account as
+   the owner (not the course organization), name the repository, choose **Private**, and create it.
+   Keep the default `main` branch.
+3. In your Workstation terminal, clone **your new repository** using its HTTPS URL. Replace the two
+   uppercase values with your GitHub username and repository name, here and in every later command:
 
    ```sh
    git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
    cd YOUR-REPOSITORY
    ```
 
-4. Open this folder in the Workstation editor. Keep this guide open as `START_HERE.md`;
-   `README.md` will become your native handoff when you submit. [CHALLENGE.md](CHALLENGE.md)
-   holds the assignment. In your private repository, open **Settings → Collaborators → Add people**
-   and invite `TakalaWang` (the course delivery operator) so the submitted files and session
-   record can be reviewed. Keep the repository private.
+4. Open this folder in the Workstation editor.
+5. In your private repository on GitHub, open **Settings → Collaborators → Add people** and invite
+   `TakalaWang`, the course delivery operator, so your submission and conversation record can be
+   reviewed. Keep the repository private.
 
-Replace the two uppercase values with your actual GitHub username and repository name in every
-command. Implementation stays in Databricks; the local clone holds tools and the genuine Codex
-session, not editable notebook solution files.
+Your notebook lives in Databricks. This local folder holds only the tools and your saved Codex
+conversation, never notebook solution files.
 
-## One-time connection setup
+## 2. Install the tools
 
-The following installs platform tooling, not a solution. Run from your cloned starter root:
+These commands install the connection tooling, not a solution. Run them from the repository's top
+folder:
 
 ```sh
 mkdir -p .tools
@@ -48,79 +60,90 @@ uv venv --python 3.11 .venv
 uv pip install --python .venv/bin/python -r requirements.txt ./.tools/ai-dev-kit/databricks-tools-core ./.tools/ai-dev-kit/databricks-mcp-server
 ```
 
-If `.tools/ai-dev-kit` already exists, check its revision rather than cloning over it. The wrapper
-requires this exact revision and clean tracked server files. Tooling, environment and local
-receipts are ignored by Git. Run the local checks with:
+If `.tools/ai-dev-kit` already exists, check that it's at that revision instead of cloning over it:
+the script requires this exact revision, with its tracked files unchanged. Git ignores the tools,
+the environment and the local receipts.
+
+Run the local checks. They should all pass:
 
 ```sh
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-Sign in to the course Databricks workspace with the named profile (the CLI opens the browser):
+## 3. Sign in to Databricks and set your paths
+
+Sign in to the course workspace with a profile named `TO6`. The CLI opens your browser:
 
 ```sh
 databricks auth login --host 'https://dbc-48a16403-f66f.cloud.databricks.com?w=7474648218609329&account_id=d0c409e4-5865-49d6-86f5-241979d24355' --profile TO6
 ```
 
-Use your own learner account, not an operator account. Do not set token or host environment
-variables to override this profile. Set your own repository URL in the following command:
+Use your own learner account, not an operator account. Don't set token or host environment
+variables to override this profile.
+
+Then save your personal settings, with your own repository URL:
 
 ```sh
 .venv/bin/python tools/databricks_platform.py init --repository https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 ```
 
-If you already signed in to this course workspace under another profile, add `--profile YOUR-EXISTING-PROFILE`
-to `init`. Use that existing authenticated profile; copying its host into a new profile does not
-copy its OAuth login. Never copy tokens. Later commands automatically reuse the saved profile.
+**Already signed in to this workspace under another profile,** for example on Thursday? Run
+`databricks auth profiles` to see its name, and add `--profile THAT-NAME` to `init` instead of
+signing in again. Copying a profile's host into a new profile doesn't copy its login, and you
+should never copy tokens. Later commands reuse the saved profile automatically.
 
-`init` reads your authenticated Databricks username and writes `.platform/config.json`. Read the
-printed configuration before proceeding:
+`init` reads your Databricks username and writes `.platform/config.json`. Read the settings it
+prints before going on:
 
-| Setting | Assigned value |
+| Setting | Value |
 |---|---|
-| Profile | `TO6` by default, or the existing signed-in profile you selected |
+| Profile | `TO6` by default, or the signed-in profile you chose |
 | Notebook | `/Users/<your Databricks username>/to6-challenge3/notebook` |
 | Input schema | `training.to6_challenge3_inputs` |
 | Input tables | `returns_initial` and `returns_corrected` in that schema |
 | Supplied lineage view | `training.to6_challenge3_inputs.source_lineage` |
-| Output schema | `training.to6_c3_` followed by the first 12 hex characters of SHA-256 of your exact Databricks username; `init` calculates it |
-| Submission | Your repository URL, branch `main` |
+| Output schema | `training.to6_c3_` followed by the first 12 hex characters of the SHA-256 of your exact Databricks username; `init` works it out |
+| Submission | your repository URL, branch `main` |
 
-The administrator must already have created your output schema and granted input read access.
-Do not change the derived schema/path to another learner's values. Unity Catalog grants and
-workspace permissions enforce isolation; this tool is **not** a SQL or Python sandbox. Both SQL
-and notebook code run with your actual Databricks permissions. Use fully qualified table names.
+The administrator must already have created your output schema and given you read access to the
+inputs. Don't change your schema or path to another learner's values.
 
-### Authorize your own GitHub connection
+**The script is not a sandbox.** Your SQL and notebook code run with your real Databricks
+permissions; Unity Catalog grants and workspace permissions are what keep learners apart. Always use
+full three-part table names.
 
-The managed GitHub MCP service is named `system.ai.github`. Its endpoint in this workspace is:
+## 4. Connect GitHub to Databricks, and check
+
+Databricks reaches GitHub through a managed connection named `system.ai.github`. Its endpoint in
+this workspace is:
 
 `https://dbc-48a16403-f66f.cloud.databricks.com/ai-gateway/mcp-services/system.ai.github`
 
-1. Open [Authorize GitHub for Databricks](https://dbc-48a16403-f66f.cloud.databricks.com/mcp-service-login?name=system.ai.github)
-   while signed in to your training Databricks account.
-2. Complete the GitHub authorization using **your own GitHub account**, the owner of the
-   repository you just created. Permit the connection to access that private repository.
-3. Return to the Workstation. Never paste authorization tokens into a prompt. This connection
-   belongs to you; an operator's connected account cannot submit your work. Run:
+1. While signed in to your training Databricks account, open
+   [Authorize GitHub for Databricks](https://dbc-48a16403-f66f.cloud.databricks.com/mcp-service-login?name=system.ai.github).
+2. Authorize with **your own GitHub account**, the owner of the repository you just created, and
+   allow it to access that private repository. This connection is yours: an operator's account
+   can't submit your work.
+3. Back in the Workstation, never paste authorization tokens into a prompt. Run:
 
 ```sh
 .venv/bin/python tools/databricks_platform.py check
 ```
 
-The check verifies the connected GitHub user owns your personal repository, then reads your Databricks identity, both input table descriptions/columns, your output schema and
-GitHub's README on `main`. It does not write to external platforms. A successful check proves
-these reads only. The walkthrough below tests compute/write/export; the lineage view and
-session-record transfer have their own checks.
+`check` confirms that the connected GitHub user owns your repository. It then reads your Databricks
+identity, both input tables' descriptions and columns, your output schema, and the README on your
+`main` branch. It writes nothing. Passing `check` proves you can read; the practice test in phase 6
+proves you can run code, write and submit.
 
-## Ungraded native round trip
+## 5. Turn on conversation saving
 
-Before this walkthrough, complete [SESSION_RECORD.md](SESSION_RECORD.md), steps 1–2.
-Use its Databricks-specific finish steps after every submission. Remote GitHub commits do not
-trigger your Workstation's Git hooks. Keep the genuine Codex conversation, including tool context;
-screenshots and reconstructed chat are not substitutes.
+Complete [SESSION_RECORD.md](SESSION_RECORD.md), steps 1–2, before you start Codex. Your genuine
+Codex conversation, including its tool activity, is part of what you hand in. Screenshots and
+retyped chats don't count.
 
-Start Codex in this repository. Give it the following platform operating contract:
+## 6. Run the practice test and submit it
+
+Start Codex in this repository folder. Give it these working rules:
 
 > Use `.venv/bin/python tools/databricks_platform.py execute` with JSON on stdin containing inline `code`.
 > Author and update the notebook through that native operation, never a local solution file or
@@ -128,8 +151,8 @@ Start Codex in this repository. Give it the following platform operating contrac
 > Use `sql` for independent readback and `submit` for native exports. Ask before writes whose
 > target I have not authorized. Never edit a downloaded/exported notebook locally.
 
-For the connection smoke only, send this inline Python through `execute`, replacing
-`YOUR_OUTPUT_SCHEMA` with the exact configuration value. No local `.py` file is created:
+Have Codex send this Python through `execute`, with `YOUR_OUTPUT_SCHEMA` replaced by your output
+schema from phase 3. No local `.py` file is created:
 
 ```python
 import json
@@ -144,22 +167,26 @@ dbutils.notebook.exit(json.dumps({"files": {
 }}))
 ```
 
-The operation accepts exactly `{"code":"...inline notebook source..."}` on stdin. Codex can
-serialize that JSON and pass it directly without writing a solution file. Open the returned
-run URL and your native notebook in the Databricks browser. Confirm the run succeeded.
+`execute` takes exactly `{"code":"...inline notebook source..."}` on stdin; Codex can build that
+JSON and pass it directly. Open the run URL it returns, and your notebook, in Databricks in the
+browser. Confirm the run succeeded.
 
-Independently read the saved practice table with `sql`, passing JSON on stdin:
+Read the saved practice table yourself with `sql`, passing this JSON on stdin (replace
+`YOUR_OUTPUT_SCHEMA` first):
 
 ```json
 {"query":"SELECT * FROM YOUR_OUTPUT_SCHEMA.connection_smoke"}
 ```
 
-Replace `YOUR_OUTPUT_SCHEMA` first. Also open the two supplied inputs in Catalog Explorer. For the supplied lineage view, open
-**Catalog → training → to6_challenge3_inputs → source_lineage**, or use the same `sql` command
-with `SELECT * FROM training.to6_challenge3_inputs.source_lineage`. This supplied source map is
-separate from the Catalog UI's Lineage tab. The administrator owns missing permissions or metadata.
+Also look at the inputs:
+- Open the two input tables in Catalog Explorer.
+- Open the supplied lineage view at **Catalog → training → to6_challenge3_inputs → source_lineage**,
+  or query `SELECT * FROM training.to6_challenge3_inputs.source_lineage` with `sql`. This view is a
+  source map the course supplies; it's separate from the Lineage tab in Catalog Explorer.
 
-Now run:
+If a permission or description is missing, the administrator fixes it.
+
+Now submit the practice result and read it back:
 
 ```sh
 .venv/bin/python tools/databricks_platform.py submit
@@ -167,44 +194,51 @@ Now run:
 .venv/bin/python tools/databricks_platform.py read README.md
 ```
 
-`submit` obtains the native source and the successful run's notebook output. It creates a GitHub
-commit on your own `main`, then reads every submitted file at that exact commit and checks its
-bytes or Git blob hash. Open that commit in GitHub. A `verified: false` receipt means a commit
-may already exist but its readback failed: inspect it before retrying. Complete SESSION_RECORD.md steps 3–5 and confirm the remote checkpoint too. Only then begin
-the actual task.
+`submit` takes the notebook's source and the output of its last successful run, commits them to
+your `main` branch, then reads every file back from that commit to confirm it arrived intact. Open
+the commit in GitHub. If the receipt says `verified: false`, a commit may already exist but its
+check failed: look at it before trying again.
 
-## Work and submission contract
+## 7. Save the practice conversation, then start the task
 
-Use the same native notebook for your own implementation. The task's initial bad-batch failure
-is expected: keep the failed native run and affected records/reason. The wrapper retains run IDs
-in ignored local receipts; include the required evidence in the native handoff/output files so
-reviewers receive it. A successful run must end with `dbutils.notebook.exit` containing JSON of
-this shape, constructed **in Databricks**:
+Complete [SESSION_RECORD.md](SESSION_RECORD.md), steps 3–5, and confirm the conversation reached
+GitHub. Commits that `submit` makes on GitHub don't trigger your Workstation's Git hooks, which is
+why these steps are needed after every submission.
+
+The practice table and `outputs/connection-smoke.json` can stay as ungraded evidence. Then start
+[CHALLENGE.md](CHALLENGE.md).
+
+## Reference: how submission works
+
+**Use the same notebook for the task.** The initial batch is meant to fail: keep that failed run,
+its affected records and the reason. The script keeps run IDs in ignored local receipts, so put
+the evidence a reviewer needs in your handoff and output files.
+
+**A successful run must end with `dbutils.notebook.exit`**, returning JSON of this shape, built in
+Databricks:
 
 ```json
 {"files":{"README.md":"Your handoff text","outputs/your-output.json":"Your small synthetic output export"}}
 ```
 
-The wrapper permits only `README.md` and paths under `outputs/`. It adds `notebook.py` from the
-native SOURCE export and `outputs/native-run.json` with the execution reference. Do not supply
-a notebook file or reserved run receipt yourself. Large/truncated notebook output is rejected;
-keep these synthetic exports small. Failed latest execution, changed native source, unsuccessful
-run status or mismatched GitHub readback cannot produce a verified submission receipt.
+- Only `README.md` and paths under `outputs/` are allowed.
+- The script adds `notebook.py` (the notebook's source) and `outputs/native-run.json` (the run
+  reference) itself. Don't supply either.
+- Large or truncated notebook output is rejected, so keep the exports small.
+- No verified receipt is produced if the latest run failed, the notebook changed after the run,
+  the run's status isn't successful, or the GitHub readback doesn't match.
 
-`sql` accepts a query and returns the actual managed SQL result. If it returns a pending
-`statement_id`, call `.venv/bin/python tools/databricks_platform.py sql --statement-id ID` to read its
-status; repeat while pending, without resubmitting the original query. It is not an access-control
-filter. Use it for inspecting your inputs and saved outputs; never modify the shared inputs.
-The approved output boundary is your derived schema, enforced by platform grants.
+**`sql` returns the real query result.** If it returns a pending `statement_id`, check on it with
+`.venv/bin/python tools/databricks_platform.py sql --statement-id ID`. Repeat while it's pending,
+without resending the original query. `sql` doesn't restrict access: use it to inspect your inputs
+and saved outputs, and never to change the shared inputs. You may write only to your own output
+schema, which platform grants enforce.
 
-The task defines the actual deliverables and quality requirements. Record your final run references,
-source/output identifiers and limitations in the native handoff. After `submit`, identify its
-commit in the Classroom submission alongside your repository **base** URL. Do not edit the
-handoff locally merely to add its own commit hash (a file cannot name its containing future hash).
-Your genuine Codex session remains a separate required submission record. This starter does
-not promise that automated grading is ready.
+**After the final `submit`,** put the commit SHA in your Classroom submission alongside your
+repository's base URL. Don't edit the handoff to add its own commit SHA. Your Codex conversation is
+handed in separately ([SESSION_RECORD.md](SESSION_RECORD.md)). This starter doesn't promise that
+automated grading is ready.
 
-The practice table and `outputs/connection-smoke.json` may remain as ungraded connection evidence.
-Submission updates the files named by the successful native run; it does not erase older exports.
-List the files belonging to your final task delivery in the native README so a reviewer can
-distinguish them from practice or earlier outputs.
+**Each submit adds or updates only the files its run names**; it doesn't delete older exports. List
+the files that belong to your final task delivery in your handoff, so a reviewer can tell them
+apart from practice or earlier outputs.

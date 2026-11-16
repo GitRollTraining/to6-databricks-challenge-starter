@@ -1,8 +1,16 @@
 # Save the Codex work that produced your Databricks submission
 
-Use this procedure for this Challenge instead of the standing guide's local-code commit step.
-Your notebook and handoff are authored in Databricks. The Workstation only records the genuine
-Codex conversation and pulls unchanged platform exports. Keep your repository private.
+**Why.** Your saved Codex conversation is part of what you hand in. It shows the instructions you
+gave, what you noticed and the decisions you made; the review looks at those, not only at the
+notebook. So the conversation must be the real one, saved by a recording tool (Entire), not
+retyped or summarized afterwards.
+
+**When.** Steps 1–2 once, before you first start Codex. Steps 3–5 after every `submit`: once for
+the practice test, again for the final task. Step 6 only for the final task.
+
+Use this procedure for this Challenge instead of the standing guide's step that commits local code.
+Your notebook and handoff are written in Databricks; your Workstation only records the Codex
+conversation and pulls the unchanged files the script committed. Keep your repository private.
 
 ## 1. Install the tested recorder in your Workstation
 
@@ -31,7 +39,7 @@ tar -xzf .tools/entire/release.tar.gz -C .tools/entire
 ```
 
 Continue only if the checksum passed and the version is 0.13.4. A download or version error is
-an environment issue; send the facilitator the failing command, without tokens.
+an environment problem, not part of the task: send the trainer the failing command, without tokens.
 
 ## 2. Enable recording before starting Codex
 
@@ -53,7 +61,8 @@ redaction is an additional check, not a reason to include secrets.
 
 Start **Codex CLI in this repository folder** (`codex`). Complete the ungraded native round trip
 in START_HERE.md. For the actual Challenge, start or resume Codex here again. Keep your own
-instructions, observations and decisions in that real conversation.
+instructions, observations and decisions in that real conversation: say what you checked and
+why you decided, not only what Codex should do.
 
 ## 3. Finish the native submission, then save its conversation
 
@@ -69,7 +78,8 @@ The list shows the timestamp and original session ID for this folder. Select the
 actually used. Do not select someone else's session or invent a transcript. If the list is empty,
 stop and report it; a notebook export is not a conversation record.
 
-Create a new empty commit to hold the capture link. It does not change the exported notebook:
+Create a new empty commit to hold the link to the saved conversation. It doesn't change the
+exported notebook:
 
 ```sh
 git commit --allow-empty -m "Record Codex work for native Databricks submission"
@@ -109,12 +119,13 @@ repository in GitHub and select `entire/checkpoints/v1` to confirm the checkpoin
 The last hash is your final submission commit, which includes the capture link. Your native
 run receipt still names the successful Databricks run.
 
-**For the connection walkthrough, stop here. Do not turn in the practice result.** Return to
+**For the practice test, stop here. Don't turn in the practice result.** Return to
 CHALLENGE.md and start the actual task. Repeat these finish steps after completing it.
 
 ## 6. Turn in the completed Challenge only
 
-In Classroom, attach your repository **base URL** with **Add or create → Link**, add the final
-commit SHA in a private comment, and select **Turn in**. Ensure the invitation to reviewer
-`TakalaWang` has been accepted before review; the repository and checkpoint branch stay private.
-Ownership and Trait evidence comes from your Codex work, not from Genie logs.
+Go through the checklist in [CHALLENGE.md, What you hand in](CHALLENGE.md#what-you-hand-in). In
+Classroom, attach your repository **base URL** with **Add or create → Link**, add the final commit
+SHA in a private comment, and select **Turn in**. Make sure the reviewer `TakalaWang` has accepted
+your invitation before review; the repository and the checkpoint branch stay private. The
+Ownership and Trait review uses your Codex conversation, not Genie logs.
