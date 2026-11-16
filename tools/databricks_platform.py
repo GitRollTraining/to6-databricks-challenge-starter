@@ -92,14 +92,14 @@ def verify_readback(result, expected):
 
 def native_files(payload, source):
     require(isinstance(payload, dict) and isinstance(payload.get('files'), dict),
-            'Notebook must exit JSON with files: {README.md: text, outputs/name.json: text}.')
+            'Notebook must exit JSON with files: {SUBMISSION.md: text, outputs/name.json: text}.')
     files = payload['files']
-    require('README.md' in files, 'Native handoff README.md is required.')
+    require('SUBMISSION.md' in files, 'Native handoff SUBMISSION.md is required.')
     for name, content in files.items():
         p = PurePosixPath(name)
-        require(name == 'README.md' or (name.startswith('outputs/') and len(p.parts) > 1
+        require(name == 'SUBMISSION.md' or (name.startswith('outputs/') and len(p.parts) > 1
                 and '..' not in p.parts and '\\' not in name and str(p) == name),
-                'Only README.md and files below outputs/ can be submitted.')
+                'Only SUBMISSION.md and files below outputs/ can be submitted.')
         require(isinstance(content, str), 'Native output files must be text.')
     require('outputs/native-run.json' not in files, 'outputs/native-run.json is reserved for the run receipt.')
     return {'notebook.py': source.decode('utf-8'), **files}

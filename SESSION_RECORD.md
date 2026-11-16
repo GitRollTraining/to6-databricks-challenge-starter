@@ -1,6 +1,10 @@
 # Save the Codex work that produced your Databricks submission
 
-Use this procedure for this Challenge instead of the standing guide's local-code commit step.
+Follow this procedure when the trainer assigns the Codex route or enables conversation
+assessment. The trainer controls Ownership and Trait settings in the assessment Engine;
+choosing a tool does not let a learner opt into or out of assessment. For the browser-only
+route without Codex, the trainer disables those checkpoints. Use this procedure instead of
+the standing guide's local-code commit step.
 Your notebook and handoff are authored in Databricks. The Workstation only records the genuine
 Codex conversation and pulls unchanged platform exports. Keep your repository private.
 
@@ -52,7 +56,7 @@ receipts. Never put tokens, passwords or sign-in codes into Codex. The recorder'
 redaction is an additional check, not a reason to include secrets.
 
 Start **Codex CLI in this repository folder** (`codex`). Complete the ungraded native round trip
-in START_HERE.md. For the actual Challenge, start or resume Codex here again. Keep your own
+in OPTIONAL_TOOLS.md. For the actual Challenge, start or resume Codex here again. Keep your own
 instructions, observations and decisions in that real conversation.
 
 ## 3. Finish the native submission, then save its conversation
@@ -116,5 +120,5 @@ CHALLENGE.md and start the actual task. Repeat these finish steps after completi
 
 In Classroom, attach your repository **base URL** with **Add or create → Link**, add the final
 commit SHA in a private comment, and select **Turn in**. Ensure the invitation to reviewer
-`TakalaWang` has been accepted before review; the repository and checkpoint branch stay private.
+named in Classroom has been accepted before review; the repository and checkpoint branch stay private.
 Ownership and Trait evidence comes from your Codex work, not from Genie logs.

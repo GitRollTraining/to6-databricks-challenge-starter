@@ -75,11 +75,29 @@ class BoundaryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             p.identity_config('../bob', 'https://github.com/alice/work')
 
+    def test_browser_scaffold_uses_the_same_authenticated_schema(self):
+        notebook = (Path(__file__).parents[1] / 'notebook.py').read_text()
+        for username in ('alice@example.test', 'Learner.MixedCase@example.test'):
+            spark = NS(sql=lambda query: NS(first=lambda: {'username': username}))
+            scope = {'spark': spark, 'print': lambda *args: None}
+            exec(compile(notebook, 'notebook.py', 'exec'), scope)
+            expected = p.identity_config(username, 'https://github.com/alice/work')
+            self.assertEqual(scope['OUTPUT_SCHEMA'], expected['output_schema'])
+            self.assertEqual(scope['INPUT_SCHEMA'], expected['input_schema'])
+
     def test_native_files_reject_traversal_and_source_replacement(self):
         for bad in ('outputs/../secret', 'outputs//x', 'outputs/x/../../x', 'notebook.py',
-                    '/tmp/x', 'outputs/x\\y', 'outputs/native-run.json'):
+                    'README.md', '/tmp/x', 'outputs/x\\y', 'outputs/native-run.json'):
             with self.subTest(bad=bad), self.assertRaises(ValueError):
-                p.native_files({'files': {'README.md': 'x', bad: 'bad'}}, b'code')
+                p.native_files({'files': {'SUBMISSION.md': 'x', bad: 'bad'}}, b'code')
+
+    def test_native_handoff_required_and_readme_never_overwritten(self):
+        with self.assertRaises(ValueError):
+            p.native_files({'files': {'outputs/a.json': '{}'}}, b'code')
+        files = p.native_files({'files': {'SUBMISSION.md': 'handoff', 'outputs/a.json': '{}'}}, b'code')
+        self.assertEqual(files['notebook.py'], 'code')
+        self.assertEqual(files['SUBMISSION.md'], 'handoff')
+        self.assertNotIn('README.md', files)
 
     def test_native_source_must_match_latest_success_and_live_run(self):
         cfg = {'workspace_path': '/Users/alice/n'}
@@ -120,7 +138,7 @@ class BoundaryTests(unittest.TestCase):
         last = {**cfg, 'success': True, 'run_id': 1, 'source_sha256': p.digest(source)}
         w = NS(jobs=NS(get_run=lambda _: NS(state=NS(result_state=NS(value='SUCCESS')), tasks=[NS(run_id=2)]),
                         get_run_output=lambda _: NS(notebook_output=NS(truncated=False,
-                            result=json.dumps({'files': {'README.md': 'handoff'}})))))
+                            result=json.dumps({'files': {'SUBMISSION.md': 'handoff'}})))))
         sha = 'a' * 40
         with tempfile.TemporaryDirectory() as directory, patch.object(p, 'STATE', Path(directory)), \
              patch.object(p, 'verify_github_owner', new=AsyncMock(return_value='alice')), \

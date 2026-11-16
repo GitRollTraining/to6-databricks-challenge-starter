@@ -8,15 +8,11 @@ this task does not train a model or supply its target labels.
 
 ## Work in Databricks
 
-Use Codex to direct and review the work through the trainer-provided connection. Implement
-one notebook and the handoff files in Databricks, execute on Databricks compute, and submit the
-platform-produced files to GitHub. Do not develop or run a solution locally and then import it.
-
-The trainer provides a workspace, compute, read-only inputs, your own writable output schema,
-a starter with connection/read/write examples, and the Codex session capture route. Create your
-own private GitHub repository from the starter and use its `main` branch. Complete the ungraded
-walkthrough of these operations before starting. Ask the
-trainer to resolve missing access; configuring accounts, compute or MCP is not part of this task.
+Create, run and check your work in Databricks; do not develop a solution locally and import it.
+Use the browser walkthrough in [START_HERE.md](START_HERE.md). Genie Code is optional.
+The training team supplies compute, read-only inputs, Catalog descriptions, a lineage view and
+an individual writable output schema. Missing access is an environment issue for the trainer.
+The ungraded practice checks your connection; it is not part of the task's assessment.
 
 ## Supplied data
 
@@ -33,16 +29,16 @@ Work toward these four connected outcomes. Choose the implementation yourself.
 1. **Understand the input.** Use Catalog descriptions, at least three sample rows and the
    supplied lineage view to establish the row meaning, relevant fields, uniqueness identifier
    and upstream source. Keep a concise source reference and explanation in the notebook.
-2. **Decide which batch is usable.** Required-value and uniqueness checks must reject the
+2. **Decide which batch is usable.** Completeness (required-value) and uniqueness checks must reject the
    initial batch before feature output is written. Preserve the affected records and the reason
    for rejection. Assess `returns_corrected` with the same rules and use it for the final run.
    Removing checks, replacing unknown amounts with zero or silently discarding records is not
    an acceptable correction. Explain the failure and your next action using the actual records
-   and rule; related observations may span your Codex conversation.
+   and rule in your submitted notebook or evidence files.
 3. **Deliver a checked feature table.** Save `return_features` with exactly `return_id`,
    `tax_year` and `deduction_to_income`, where the ratio is deduction divided by income.
    A zero-income return stays in the table with a null ratio. Keep every accepted return once;
-   exclude the filer identifier and raw amounts. Verify a nonzero result against an expected
+   exclude the filer identifier and raw amounts under the course's need-to-know rule. Verify a nonzero result against an expected
    value you derive from the source, and check the saved table by reading it back, including a
    zero-income case.
 4. **Make the handoff usable.** From the saved features, save `features_train` for 2022,
@@ -55,19 +51,30 @@ The checks above establish this task's data contract; they do not prove that eve
 source of model leakage has been eliminated. Later modelling work must add suitable labels
 and assess which information is available at prediction time.
 
-## Submit to GitHub
+## What to submit and how it is checked
 
-From Databricks, export the native notebook as readable source and produce `README.md` plus
-small synthetic output exports. Include source/output table identifiers and actual run
-references, retaining the initial rejection evidence. Use the trainer-provided connection to
-commit these platform-produced files to your personal GitHub repository’s `main` branch, without local edits.
-Check the exact submitted commit contains the notebook, handoff and exports. Submit the
-repository's base URL (`https://github.com/{owner}/{repo}`), branch and final submitted commit SHA
-in your Classroom submission. Keep native run references and table identifiers in the handoff;
-do not edit it locally to add its own future containing commit hash.
+Your repository's `main` branch must contain:
 
-Preserve your genuine Codex session through the course capture route. Ownership and Trait
-assessment consider your attributable decisions and behavior there; agent replies and tool
-activity provide context, not a substitute for your own judgment. Do not reconstruct a
-conversation afterwards or include credentials. Genie logs are not required, and screenshots
-cannot replace the code, saved outputs or interaction record.
+- `notebook.py`: readable notebook source with your implementation, source references,
+  checks, initial rejection and saved-table readback evidence.
+- `SUBMISSION.md`: inputs and outputs by full table name, ratio definition, checks and results,
+  run references, the list of final exports and anything you could not verify.
+- `outputs/`: small synthetic exports of the saved feature and split tables, affected initial
+  records with rejection reasons, and evidence comparing the two successful runs.
+
+These artifacts must demonstrate all four outcomes above. For each successful run, keep its
+notebook URL and execution timestamp (or a Jobs run URL/ID if you used Jobs). Retain each run's
+actual return IDs and values, or a reproducible comparison of snapshots, and show they match.
+Row counts alone cannot show that IDs and values stayed the same. Keep the initial rejection
+reference and affected records too; a successful replacement run does not replace that evidence.
+Interactive notebook runs do not require Jobs run IDs.
+
+Author the submission and exports inside Databricks. For the browser route, commit and push
+through the Git folder; for the trainer-selected [optional route](OPTIONAL_TOOLS.md), use its
+submission procedure. Verify the exact GitHub commit contains the notebook, submission and exports. Screenshots
+may supplement the files but cannot replace code or saved outputs. Leave this repository's
+navigation README in place.
+
+In Classroom, submit the repository base URL (`https://github.com/{owner}/{repo}`), `main` and
+the final submitted commit SHA. The assignment gives the deadline and reviewer instructions.
+Do not add a future containing commit SHA to `SUBMISSION.md`; report it in Classroom instead.
