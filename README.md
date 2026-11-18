@@ -14,3 +14,15 @@ You will work in Databricks and submit the code and evidence to your own private
 The Classroom assignment gives the opening time, deadline and reviewer access instructions.
 Keep this README as your navigation page. The task can be completed entirely in the browser;
 Genie Code is optional. [Other optional tools](OPTIONAL_TOOLS.md) are available if you already use them.
+
+## How this builds on the week's practice
+
+Use Monday's Catalog and source inspection, Tuesday's completeness, uniqueness and
+need-to-know checks, and Wednesday's saved features and year splits. This is a new dataset:
+its column and table names and its 2022–2024 split differ from the exercises. Read this task's
+contract rather than copying the exercise names or year boundaries.
+
+Complete the account, Git connection and ungraded practice before Challenge day if possible.
+Begin the assessed task only when the trainer opens the Classroom assignment. Work and run
+inside Databricks so the submitted source and saved results describe the work actually executed.
+The short handoff in SUBMISSION.md tells the next modelling team what you delivered and checked.

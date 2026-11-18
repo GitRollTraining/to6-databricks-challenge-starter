@@ -118,6 +118,10 @@ CHALLENGE.md and start the actual task. Repeat these finish steps after completi
 
 ## 6. Turn in the completed Challenge only
 
+Check [the task’s submission checklist](CHALLENGE.md#what-to-submit-and-how-it-is-checked)
+for the notebook, report and output evidence; this page adds the conversation-saving steps
+only when the trainer requires them.
+
 In Classroom, attach your repository **base URL** with **Add or create → Link**, add the final
 commit SHA in a private comment, and select **Turn in**. Ensure the invitation to reviewer
 named in Classroom has been accepted before review; the repository and checkpoint branch stay private.

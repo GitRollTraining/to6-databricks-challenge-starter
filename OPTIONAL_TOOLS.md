@@ -16,6 +16,20 @@ conversation. Those checkpoints require attributable evidence: agent replies and
 are context, not a replacement for your judgment. Never reconstruct a chat. For the browser-only
 route without Codex, the trainer disables those checkpoints in the Engine.
 
+## What the conversation shows
+
+Ownership concerns how you direct and check this task's work. Trait checkpoints concern
+broader working behaviours visible in that same conversation. Keep your actual observations
+and reasons: what you checked, which result you compared it with, and why you chose the next
+step. An agent's claim alone does not establish that you checked it. These explanations clarify
+the existing assessment; they do not add another deliverable or change its criteria.
+
+Here, **native** means authored and run in Databricks; **MCP** is the connection the tools use
+to reach the platforms; a **receipt** is the tool's record of an operation; and **connection
+smoke** or **round trip** means the ungraded practice that runs, submits and checks a result.
+The **handoff** is SUBMISSION.md. See [the task's submission checklist](CHALLENGE.md#what-to-submit-and-how-it-is-checked)
+for the required files.
+
 ## One-time connection setup
 
 The following installs platform tooling, not a solution. Run from your cloned starter root:
