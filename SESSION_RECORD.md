@@ -8,6 +8,10 @@ the standing guide's local-code commit step.
 Your notebook and handoff are authored in Databricks. The Workstation only records the genuine
 Codex conversation and pulls unchanged platform exports. Keep your repository private.
 
+For this optional route, complete steps 1–2 before starting work and steps 3–5 after each
+practice or final submission. Step 6 is only for the completed task. Entire is the recorder
+that preserves your original conversation; its checkpoint is a saved record, not a task score.
+
 ## 1. Install the tested recorder in your Workstation
 
 This course walkthrough uses Entire **0.13.4**. Version 0.8.1 could not read the current Codex
