@@ -29,6 +29,10 @@ Work toward these four connected outcomes. Choose the implementation yourself.
 1. **Understand the input.** Use Catalog descriptions, at least three sample rows and the
    supplied lineage view to establish the row meaning, relevant fields, uniqueness identifier
    and upstream source. Keep a concise source reference and explanation in the notebook.
+   Inspect the full batch as well as the sample rows. Summarize returns by year, missing required
+   values, duplicate return IDs and zero-income records. Keep the queries and results in the
+   notebook, and explain which findings affect your next checks or transformations. A chart is
+   optional. These observations do not replace the quality checks in the next step.
 2. **Decide which batch is usable.** Completeness (required-value) and uniqueness checks must reject the
    initial batch before feature output is written. Preserve the affected records and the reason
    for rejection. Assess `returns_corrected` with the same rules and use it for the final run.
