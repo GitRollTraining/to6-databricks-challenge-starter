@@ -9,7 +9,7 @@ in a notebook, repository or prompt.
 
 1. Open [the starter](https://github.com/GitRollTraining/to6-databricks-challenge-starter).
    Choose **Fork → Create a new fork** and select your personal account. Keep the
-   `main` branch. A fork of this public starter is public; confirm the **Public** label.
+   `main` branch. Your fork is automatically public.
    Use your own fork throughout this task, not the starter repository.
 2. In Databricks, open your user menu → **Settings → Linked accounts → Add Git credential**.
    Select GitHub and link your own account, allowing access to your public fork.
@@ -71,7 +71,7 @@ The Git folder saves your notebook as source when committed; no local download o
 
 Review the deliverables in [CHALLENGE.md](CHALLENGE.md), then **Commit & Push** from the Git dialog.
 In GitHub, open the resulting commit and verify `notebook.py`, `SUBMISSION.md` and every final
-export. Record that commit's full SHA. Confirm your fork is **Public** so the assessment service can read it without an invitation.
+export. Record that commit's full SHA. The assessment service can read your public fork without an invitation.
 
 In Classroom, use **Add or create → Link** for your repository base URL. Add branch `main` and
 the final SHA in a private comment, then **Turn in** by the assignment's deadline.
