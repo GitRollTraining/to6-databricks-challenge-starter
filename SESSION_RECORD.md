@@ -6,7 +6,7 @@ choosing a tool does not let a learner opt into or out of assessment. For the br
 route without Codex, the trainer disables those checkpoints. Use this procedure instead of
 the standing guide's local-code commit step.
 Your notebook and handoff are authored in Databricks. The Workstation only records the genuine
-Codex conversation and pulls unchanged platform exports. Keep your repository private.
+Codex conversation and pulls unchanged platform exports. Use the public fork created in START_HERE.md. Never commit credentials or unrelated personal conversations.
 
 For this optional route, complete steps 1–2 before starting work and steps 3–5 after each
 practice or final submission. Step 6 is only for the completed task. Entire is the recorder
@@ -112,8 +112,8 @@ git rev-parse FETCH_HEAD
 git rev-parse HEAD
 ```
 
-The first two hashes must match: the checkpoint branch reached GitHub. Open your private
-repository in GitHub and select `entire/checkpoints/v1` to confirm the checkpoint files are there.
+The first two hashes must match: the checkpoint branch reached GitHub. Open your public
+fork in GitHub and select `entire/checkpoints/v1` to confirm the checkpoint files are there.
 The last hash is your final submission commit, which includes the capture link. Your native
 run receipt still names the successful Databricks run.
 
@@ -127,6 +127,5 @@ for the notebook, report and output evidence; this page adds the conversation-sa
 only when the trainer requires them.
 
 In Classroom, attach your repository **base URL** with **Add or create → Link**, add the final
-commit SHA in a private comment, and select **Turn in**. Ensure the invitation to reviewer
-named in Classroom has been accepted before review; the repository and checkpoint branch stay private.
+commit SHA in a private comment, and select **Turn in**. Keep your fork public so the assessment service can read the repository and checkpoint branch without an invitation.
 Ownership and Trait evidence comes from your Codex work, not from Genie logs.

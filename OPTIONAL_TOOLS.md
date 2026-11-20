@@ -1,10 +1,10 @@
 # Optional: use your existing Codex workflow
 
 The default is [Databricks in your browser](START_HERE.md). This alternative is opt-in;
-it uses the same task, repository and submission files. No changes to the template are needed.
+it uses the same task, repository and submission files. No changes to the starter are needed.
 Your notebook implementation and outputs still originate in Databricks. This route does require
 tooling in your course Workstation (Python 3.11+, Git, uv, Codex and Databricks CLI).
-Clone your own private repository there and run the commands from its root.
+Clone your own public fork there and run the commands from its root.
 Use the workspace base URL and reviewer from the Classroom environment card. Replace
 `YOUR-WORKSPACE-HOST` below with that host (no account IDs or query string).
 
@@ -94,7 +94,7 @@ The managed GitHub MCP service is named `system.ai.github`. Its endpoint in this
 1. Open [Authorize GitHub for Databricks](https://YOUR-WORKSPACE-HOST/mcp-service-login?name=system.ai.github)
    while signed in to your training Databricks account.
 2. Complete the GitHub authorization using **your own GitHub account**, the owner of the
-   repository you just created. Permit the connection to access that private repository.
+   repository you just created. Permit the connection to access your public fork.
 3. Return to the Workstation. Never paste authorization tokens into a prompt. This connection
    belongs to you; an operator's connected account cannot submit your work. Run:
 
